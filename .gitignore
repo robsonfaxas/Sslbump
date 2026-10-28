@@ -1,0 +1,12 @@
+# Build output
+bin/
+obj/
+
+# Generated at runtime by the proxy (the CA private key must never be published)
+ca.pfx
+ca.cer
+
+# Visual Studio / Rider
+.vs/
+.idea/
+*.user
