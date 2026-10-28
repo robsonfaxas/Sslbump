@@ -65,8 +65,21 @@ certutil -delstore Root "Sslbump POC Root CA"
 ```
 
 Then point the browser (or the OS proxy settings) at `localhost:8080` for both
-HTTP and HTTPS. Quick check without installing anything, using curl's own
-trust-skip (`-k`) to isolate the handshake:
+HTTP and HTTPS. The simplest way, without touching your system or everyday
+browser, is to launch a throwaway Chrome instance pointed at the proxy
+(PowerShell):
+
+```powershell
+& "C:\Program Files\Google\Chrome\Application\chrome.exe" --proxy-server="http://localhost:8080" --user-data-dir="$env:TEMP\sslbump-chrome"
+```
+
+- `--proxy-server` routes all of this window's traffic through the proxy, without
+  changing Windows' global proxy settings.
+- `--user-data-dir` uses a fresh, disposable profile, so your real history,
+  logins and (importantly) cache/HSTS don't interfere with the test.
+
+Quick check without installing anything, using curl's own trust-skip (`-k`) to
+isolate the handshake:
 
 ```bash
 curl -x http://localhost:8080 -k --tlsv1.2 https://example.com/
